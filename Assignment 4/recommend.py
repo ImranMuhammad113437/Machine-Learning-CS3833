@@ -515,7 +515,7 @@ def reweight(title2MVec_norm, feat2weight):
   return title2MVec_reweighted
 
 
-def get_recommendations(query_title, feat2weight, title2MVec_norm, title2movie, distance_function=eucl_dist):
+def get_recommendations(query_title, feat2weight, title2MVec_norm, title2movie, distance_function=manh_dist):
   """Returns a table containing all movies, sorted in order of nearest neighbors. Weigts features according to feat2weight first. Uses given distance_function. Returns a HTML string for a table."""
   query_title = search_titles(query_title, title2MVec_norm)
   if query_title is None: return
@@ -544,7 +544,7 @@ def get_recommendations(query_title, feat2weight, title2MVec_norm, title2movie, 
 
 # Some movies have a list of recommendations, a subset of which may be in the dataset. The loss for one example is the average rank of these recommendations, normalized by the total number of movies. The loss for the whole dataset is the average of this over all examples that have in-dataset recommendations
 
-def get_rec_ranks(query_title, title2MVec_reweighted, title2movie, distance_function=eucl_dist):
+def get_rec_ranks(query_title, title2MVec_reweighted, title2movie, distance_function=manh_dist):
   """Returns list of (recommended movie, rank), otherwise None if no in-dataset recommendations"""
   # Get list of recommendations
   query_mvec = title2MVec_reweighted[query_title]
@@ -564,7 +564,7 @@ def get_rec_ranks(query_title, title2MVec_reweighted, title2movie, distance_func
   return zip(recs_titles, recs_ranks)
 
 
-def get_score(feat2weight, title2MVec_norm, title2movie, distance_function=eucl_dist):
+def get_score(feat2weight, title2MVec_norm, title2movie, distance_function=manh_dist):
   """Prints information about loss"""
   print ("calculating score...")
 
@@ -624,6 +624,6 @@ if __name__=="__main__":
     feat2weight[f] = 1.0
 
   title2MVec_norm, title2movie = init()
-  get_score(feat2weight, title2MVec_norm, title2movie, distance_function=eucl_dist)
+  get_score(feat2weight, title2MVec_norm, title2movie, distance_function=manh_dist)
 
   # get_recommendations("casablanca", feat2weight, title2MVec_norm, title2movie)
